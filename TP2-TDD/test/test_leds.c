@@ -23,9 +23,22 @@ SPDX-License-Identifier: MIT
  ** @brief Unitary tests for leds module.
  **/
 
+/**
+ * @test Prender un LED individual.
+ * @test Apagar un LED individual.
+ * @test Prender y apagar múltiples LED’s.
+ * @test Prender todos los LEDs de una vez.
+ * @test Apagar todos los LEDs de una vez.
+ * @test Consultar el estado de un LED que está encendido
+ * @test Consultar el estado de un LED que est apagado
+ * @test Revisar limites de los parametros.
+ * @test Revisar parámetros fuera de los limites.
+ */
+
 /* === Headers files inclusions ===============================================================
  */
 #include "unity.h"
+#include "leds.h"
 
 /* === Macros definitions ======================================================================
  */
@@ -51,8 +64,12 @@ SPDX-License-Identifier: MIT
 /* === Public function implementation ==========================================================
  */
 
-void test_inicial(void) {
-    TEST_FAIL_MESSAGE("Configuracion e inicializacion correcta");
+//! * @test Con la inicialización todos los LEDs quedan apagados.
+
+void test_todos_los_leds_inicial_apagados(void) {
+    uint16_t ledsVitruales = 0xFFFF;
+    Leds_init(&ledsVitruales);
+    TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVitruales);
 }
 
 /* === End of documentation ==================================================================== */
