@@ -24,7 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 
 /**
- * @test Prender y apagar múltiples LED’s.
  * @test Prender todos los LEDs de una vez.
  * @test Apagar todos los LEDs de una vez.
  * @test Consultar el estado de un LED que está encendido
@@ -67,24 +66,35 @@ void setUp(void) {
     Leds_init(&virtualLeds);
 }
 
-//! * @test After initialization, all LEDs should be off.
+//! @test After initialization, all LEDs should be off.
 void test_all_leds_initially_off(void) {
     uint16_t virtualLeds = 0xFFFF;
     Leds_init(&virtualLeds);
     TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
 }
 
-//! * @test Turn on a single LED.
+//! @test Turn on a single LED.
 void test_turn_on_single_led(void) {
     Leds_turnOnSingle(4);
     TEST_ASSERT_EQUAL_HEX16(0x0008, virtualLeds);
 }
 
-//! * @test Turn off a single LED.
+//! @test Turn off a single LED.
 void test_turn_off_single_led(void) {
     Leds_turnOnSingle(4);
     Leds_turnOffSingle(4);
     TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+//! @test Turn on and turn off multiple LEDs.
+void test_turn_on_and_off_multiple_leds(void) {
+    Leds_turnOnSingle(4);
+    Leds_turnOnSingle(6);
+
+    Leds_turnOffSingle(4);
+    Leds_turnOffSingle(8);
+
+    TEST_ASSERT_EQUAL_HEX16(0x0020, virtualLeds);
 }
 
 /* === End of documentation ==================================================================== */

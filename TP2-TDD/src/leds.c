@@ -29,12 +29,27 @@ SPDX-License-Identifier: MIT
 
 /* === Macros definitions ====================================================================== */
 
+//! Mask to turn off all LEDs
+#define ALL_LEDS_OFF 0x0000
+//! brief LED shift offset to obtain the mask
+#define LEDS_TO_BIT_OFFSET 1
+//! brief Constant with the first bit set to one for generating a mask
+#define FIRST_BIT 1
+
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
+
+//! @brief Private variable to store the address of the LEDs output port
 static uint16_t * portAddress;
 
 /* === Private function declarations =========================================================== */
+/**
+ * @brief Private function to convert an LED number into a bit mask.
+ * @param led LED number for which the bit mask is needed.
+ * @return Bit mask with a 1 in the position corresponding to the LED.
+ */
+static uint16_t ledToMask(uint8_t led);
 
 /* === Public variable definitions ============================================================= */
 
@@ -42,18 +57,23 @@ static uint16_t * portAddress;
 
 /* === Private function implementation ========================================================= */
 
+static uint16_t ledToMask(uint8_t led) {
+    return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
+};
+
 /* === Public function implementation ========================================================== */
 
 void Leds_init(uint16_t * address) {
     portAddress = address;
-    *portAddress = 0x0000;
+    *portAddress = ALL_LEDS_OFF;
 };
 
 void Leds_turnOnSingle(uint8_t led) {
-    *portAddress = 0x0008;
+    *portAddress |= ledToMask(led);
 };
 
 void Leds_turnOffSingle(uint8_t led) {
-    *portAddress = 0x0000;
+    *portAddress &= ~ledToMask(led);
 };
+
 /* === End of documentation ==================================================================== */
