@@ -82,4 +82,8 @@ void Leds_turnOnAllLeds() {
     *portAddress = ALL_LEDS_ON;
 };
 
+void Leds_turnOffAllLeds(void) {
+    *portAddress = ALL_LEDS_OFF;
+}
+
 /* === End of documentation ==================================================================== */

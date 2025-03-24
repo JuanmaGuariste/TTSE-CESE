@@ -24,7 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 
 /**
- * @test Apagar todos los LEDs de una vez.
  * @test Consultar el estado de un LED que está encendido
  * @test Consultar el estado de un LED que est apagado
  * @test Revisar limites de los parametros.
@@ -100,5 +99,12 @@ void test_turn_on_and_off_multiple_leds(void) {
 void test_turn_on_all_leds_together(void) {
     Leds_turnOnAllLeds();
     TEST_ASSERT_EQUAL_HEX16(0xFFFF, virtualLeds);
+}
+
+//! @test Turn off all LEDs at once.
+void test_turn_off_all_leds_together(void) {
+    Leds_turnOnAllLeds();
+    Leds_turnOffAllLeds();
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
 }
 /* === End of documentation ==================================================================== */
