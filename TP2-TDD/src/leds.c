@@ -20,7 +20,7 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /** @file leds.c
- ** @brief Definición de la función principal del programa
+ ** @brief Definition of the library for LED control
  **/
 
 /* === Headers files inclusions =============================================================== */
@@ -37,6 +37,10 @@ SPDX-License-Identifier: MIT
 #define LEDS_TO_BIT_OFFSET 1
 //! brief Constant with the first bit set to one for generating a mask
 #define FIRST_BIT 1
+//! brief Minimum LED number
+#define MIN_LED 1
+//! brief Maximum LED number
+#define MAX_LED 16
 
 /* === Private data type declarations ========================================================== */
 
@@ -101,6 +105,9 @@ static uint16_t * getPortAddress(void);
 
 /* === Private function implementation =========================================================
  */
+uint16_t ledToMask(uint8_t led) {
+    return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
+};
 
 void updatePortValue(uint16_t value) {
     *portAddress = value;
@@ -123,10 +130,6 @@ void setPortAddress(uint16_t * address) {
 uint16_t * getPortAddress(void) {
     return portAddress;
 }
-
-uint16_t ledToMask(uint8_t led) {
-    return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
-};
 
 /* === Public function implementation ==========================================================
  */
@@ -153,11 +156,17 @@ void Leds_turnOffAllLeds(void) {
 }
 
 bool Leds_isLedTurnedOn(uint8_t led) {
+    if (led < MIN_LED || led > MAX_LED) {
+        return false;
+    }
     uint16_t * port = getPortAddress();
     return (*port & ledToMask(led));
 };
 
 bool Leds_isLedTurnedOff(uint8_t led) {
+    if (led < MIN_LED || led > MAX_LED) {
+        return false;
+    }
     uint16_t * port = getPortAddress();
     return !(*port & ledToMask(led));
 }

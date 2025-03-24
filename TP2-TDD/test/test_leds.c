@@ -23,12 +23,6 @@ SPDX-License-Identifier: MIT
  ** @brief Unitary tests for leds module.
  **/
 
-/**
- * @test Consultar el estado de un LED que est apagado
- * @test Revisar limites de los parametros.
- * @test Revisar parámetros fuera de los limites.
- */
-
 /* === Headers files inclusions ===============================================================
  */
 #include "unity.h"
@@ -87,10 +81,8 @@ void test_turn_off_single_led(void) {
 void test_turn_on_and_off_multiple_leds(void) {
     Leds_turnOnSingle(4);
     Leds_turnOnSingle(6);
-
     Leds_turnOffSingle(4);
     Leds_turnOffSingle(8);
-
     TEST_ASSERT_EQUAL_HEX16(0x0020, virtualLeds);
 }
 
@@ -110,14 +102,61 @@ void test_turn_off_all_leds_together(void) {
 //!  @test Query the state of a LED that is on.
 void test_query_the_state_of_a_led_that_is_on(void) {
     Leds_turnOnSingle(4);
-    bool state = Leds_isLedTurnedOn(4);
-    TEST_ASSERT_EQUAL(true, state);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOn(4));
 }
 
 //! @test Query the state of a LED that is off.
 void test_query_the_state_of_a_led_that_is_off(void) {
     Leds_turnOffSingle(4);
-    bool state = Leds_isLedTurnedOff(4);
-    TEST_ASSERT_EQUAL(true, state);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOff(4));
 }
+
+//! @test Check if the lower limit LED (LED 1) is turned on correctly.
+void test_turn_on_lower_limit_led(void) {
+    Leds_turnOnSingle(1);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOn(1));
+    TEST_ASSERT_EQUAL_HEX16(0x0001, virtualLeds);
+}
+
+//! @test Check if the lower limit LED (LED 1) is turned off correctly.
+void test_turn_off_lower_limit_led(void) {
+    Leds_turnOffSingle(1);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOff(1));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+//! @test Check if the upper limit LED (LED 16) is turned on correctly.
+void test_turn_on_upper_limit_led(void) {
+    Leds_turnOnSingle(16);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOn(16));
+    TEST_ASSERT_EQUAL_HEX16(0x8000, virtualLeds);
+}
+
+//! @test Check if the upper limit LED (LED 16) is turned off correctly.
+void test_turn_off_upper_limit_led(void) {
+    Leds_turnOffSingle(16);
+    TEST_ASSERT_EQUAL(true, Leds_isLedTurnedOff(16));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+// ! @test Check parameters below the lower limit.
+void test_below_lower_limit_led_parameters(void) {
+    Leds_turnOnSingle(0);
+    TEST_ASSERT_EQUAL(false, Leds_isLedTurnedOn(0));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+    Leds_turnOffSingle(0);
+    TEST_ASSERT_EQUAL(false, Leds_isLedTurnedOff(0));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+//! @test Check parameters above the upper limit.
+void test_above_upper_limit_led_parameters(void) {
+    Leds_turnOnSingle(17);
+    TEST_ASSERT_EQUAL(false, Leds_isLedTurnedOn(17));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+    Leds_turnOffSingle(17);
+    TEST_ASSERT_EQUAL(false, Leds_isLedTurnedOff(17));
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
 /* === End of documentation ==================================================================== */

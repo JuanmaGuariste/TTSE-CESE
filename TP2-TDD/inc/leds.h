@@ -29,7 +29,6 @@ SPDX-License-Identifier: MIT
 /* === Headers files inclusions ================================================================ */
 #include <stdint.h>
 #include <stdbool.h>
-#include <stddef.h>
 
 /* === Cabecera C++ ============================================================================ */
 
@@ -38,9 +37,20 @@ extern "C" {
 #endif
 
 /* === Public macros definitions =============================================================== */
-typedef enum { LED_OFF = 0, LED_ON = 1 } LedState_t;
 
 /* === Public data type declarations =========================================================== */
+/**
+ * @brief Enumeration for LED states.
+ *
+ * This enumeration defines the two possible states of an LED:
+ *
+ * - LED_OFF: The LED is turned off (value 0).
+ *
+ * - LED_ON: The LED is turned on (value 1).
+ *
+ * @note This type is used to represent the state of an individual LED in the system.
+ */
+typedef enum { LED_OFF = 0, LED_ON = 1 } LedState_t;
 
 /* === Public variable declarations ============================================================ */
 
@@ -48,6 +58,7 @@ typedef enum { LED_OFF = 0, LED_ON = 1 } LedState_t;
 
 /**
  * @brief Initializes the LED library.
+ *
  * @note This function must be called before using any other function in the library.
  *
  * @param address Pointer to the memory address where the LEDs are stored.
