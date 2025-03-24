@@ -31,6 +31,8 @@ SPDX-License-Identifier: MIT
 
 //! Mask to turn off all LEDs
 #define ALL_LEDS_OFF 0x0000
+//! Mask to turn on all LEDs
+#define ALL_LEDS_ON 0xFFFF
 //! brief LED shift offset to obtain the mask
 #define LEDS_TO_BIT_OFFSET 1
 //! brief Constant with the first bit set to one for generating a mask
@@ -74,6 +76,10 @@ void Leds_turnOnSingle(uint8_t led) {
 
 void Leds_turnOffSingle(uint8_t led) {
     *portAddress &= ~ledToMask(led);
+};
+
+void Leds_turnOnAllLeds() {
+    *portAddress = ALL_LEDS_ON;
 };
 
 /* === End of documentation ==================================================================== */

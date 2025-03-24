@@ -71,6 +71,15 @@ void Leds_turnOnSingle(uint8_t led);
  */
 void Leds_turnOffSingle(uint8_t led);
 
+/**
+ * @brief Turns on all LEDs.
+ *
+ * @param void
+ *
+ * @return void
+ */
+void Leds_turnOnAllLeds();
+
 /* === End of documentation ==================================================================== */
 
 #ifdef __cplusplus
