@@ -24,8 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 
 /**
- * @test Prender un LED individual.
- * @test Apagar un LED individual.
  * @test Prender y apagar múltiples LED’s.
  * @test Prender todos los LEDs de una vez.
  * @test Apagar todos los LEDs de una vez.
@@ -48,6 +46,7 @@ SPDX-License-Identifier: MIT
 
 /* === Private variable declarations ===========================================================
  */
+static uint16_t virtualLeds = 0xFFFF;
 
 /* === Private function declarations ===========================================================
  */
@@ -64,12 +63,28 @@ SPDX-License-Identifier: MIT
 /* === Public function implementation ==========================================================
  */
 
-//! * @test Con la inicialización todos los LEDs quedan apagados.
+void setUp(void) {
+    Leds_init(&virtualLeds);
+}
 
-void test_todos_los_leds_inicial_apagados(void) {
-    uint16_t ledsVitruales = 0xFFFF;
-    Leds_init(&ledsVitruales);
-    TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVitruales);
+//! * @test After initialization, all LEDs should be off.
+void test_all_leds_initially_off(void) {
+    uint16_t virtualLeds = 0xFFFF;
+    Leds_init(&virtualLeds);
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+//! * @test Turn on a single LED.
+void test_turn_on_single_led(void) {
+    Leds_turnOnSingle(4);
+    TEST_ASSERT_EQUAL_HEX16(0x0008, virtualLeds);
+}
+
+//! * @test Turn off a single LED.
+void test_turn_off_single_led(void) {
+    Leds_turnOnSingle(4);
+    Leds_turnOffSingle(4);
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
 }
 
 /* === End of documentation ==================================================================== */

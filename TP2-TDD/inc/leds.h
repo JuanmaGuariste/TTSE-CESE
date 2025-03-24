@@ -44,14 +44,32 @@ extern "C" {
 /* === Public function declarations ============================================================ */
 
 /**
- * @brief Función que inicializa la biblioteca de leds
- * @note Esta función debe ser llamada antes de utilizar cualquier otra función de la biblioteca
+ * @brief Initializes the LED library.
+ * @note This function must be called before using any other function in the library.
  *
- * @param address Puntero a la dirección de memoria donde se encuentran los leds
+ * @param address Pointer to the memory address where the LEDs are stored.
  *
  * @return void
  */
 void Leds_init(uint16_t * address);
+
+/**
+ * @brief Turns on a single LED.
+ *
+ * @param led LED number to turn on (1 to 16).
+ *
+ * @return void
+ */
+void Leds_turnOnSingle(uint8_t led);
+
+/**
+ * @brief Turns off a single LED.
+ *
+ * @param led LED number to turn off (1 to 16).
+ *
+ * @return void
+ */
+void Leds_turnOffSingle(uint8_t led);
 
 /* === End of documentation ==================================================================== */
 
