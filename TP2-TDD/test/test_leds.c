@@ -24,7 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 
 /**
- * @test Consultar el estado de un LED que está encendido
  * @test Consultar el estado de un LED que est apagado
  * @test Revisar limites de los parametros.
  * @test Revisar parámetros fuera de los limites.
@@ -106,5 +105,19 @@ void test_turn_off_all_leds_together(void) {
     Leds_turnOnAllLeds();
     Leds_turnOffAllLeds();
     TEST_ASSERT_EQUAL_HEX16(0x0000, virtualLeds);
+}
+
+//!  @test Query the state of a LED that is on.
+void test_query_the_state_of_a_led_that_is_on(void) {
+    Leds_turnOnSingle(4);
+    bool state = Leds_isLedTurnedOn(4);
+    TEST_ASSERT_EQUAL(true, state);
+}
+
+//! @test Query the state of a LED that is off.
+void test_query_the_state_of_a_led_that_is_off(void) {
+    Leds_turnOffSingle(4);
+    bool state = Leds_isLedTurnedOff(4);
+    TEST_ASSERT_EQUAL(true, state);
 }
 /* === End of documentation ==================================================================== */

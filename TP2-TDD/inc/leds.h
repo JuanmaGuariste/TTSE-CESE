@@ -28,6 +28,8 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions ================================================================ */
 #include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 /* === Cabecera C++ ============================================================================ */
 
@@ -36,6 +38,7 @@ extern "C" {
 #endif
 
 /* === Public macros definitions =============================================================== */
+typedef enum { LED_OFF = 0, LED_ON = 1 } LedState_t;
 
 /* === Public data type declarations =========================================================== */
 
@@ -88,6 +91,24 @@ void Leds_turnOnAllLeds();
  * @return void
  */
 void Leds_turnOffAllLeds(void);
+
+/**
+ * @brief Checks if a LED is turned on.
+ *
+ * @param led LED number to check (1 to 16).
+ *
+ * @return true if the LED is turned on, false otherwise.
+ */
+bool Leds_isLedTurnedOn(uint8_t led);
+
+/**
+ * @brief Checks if a LED is turned off.
+ *
+ * @param led LED number to check (1 to 16).
+ *
+ * @return true if the LED is turned off, false otherwise.
+ */
+bool Leds_isLedTurnedOff(uint8_t led);
 
 /* === End of documentation ==================================================================== */
 

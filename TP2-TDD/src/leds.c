@@ -48,42 +48,118 @@ static uint16_t * portAddress;
 /* === Private function declarations =========================================================== */
 /**
  * @brief Private function to convert an LED number into a bit mask.
+ *
  * @param led LED number for which the bit mask is needed.
+ *
  * @return Bit mask with a 1 in the position corresponding to the LED.
  */
 static uint16_t ledToMask(uint8_t led);
 
-/* === Public variable definitions ============================================================= */
+/**
+ * @brief Private function to update the value of the LED port.
+ *  *
+ * @param value The value to be written to the port. Each bit corresponds to a specific LED's state.
+ *
+ * @return void
+ */
+static void updatePortValue(uint16_t value);
 
-/* === Private variable definitions ============================================================ */
+/**
+ * @brief Private function to set the state of an individual LED. *
+ *
+ * @param led The LED number to set the state for (1 to 16).
+ *
+ * @param state The desired state of the LED (ON or OFF).
+ *
+ * @note The `state` is expected to be an enumerated value of type `LedState_t`.
+ *
+ * @return void
+ */
+static void setLedState(uint8_t led, LedState_t state);
 
-/* === Private function implementation ========================================================= */
+/**
+ * @brief Private function to set the address of the LED port.
+ *
+ * @param address Pointer to the address of the LED port.
+ *
+ * @return void
+ */
+static void setPortAddress(uint16_t * address);
 
-static uint16_t ledToMask(uint8_t led) {
+/**
+ * @brief Private function to get the address of the LED port.
+ *
+ * @return uint16_t* Pointer to the address of the LED port.
+ */
+static uint16_t * getPortAddress(void);
+
+/* === Public variable definitions =============================================================
+ */
+
+/* === Private variable definitions ============================================================
+ */
+
+/* === Private function implementation =========================================================
+ */
+
+void updatePortValue(uint16_t value) {
+    *portAddress = value;
+}
+
+void setLedState(uint8_t led, LedState_t state) {
+    uint16_t currentValue = *portAddress;
+    if (state == LED_ON) {
+        currentValue |= ledToMask(led);
+    } else {
+        currentValue &= ~ledToMask(led);
+    }
+    updatePortValue(currentValue);
+}
+
+void setPortAddress(uint16_t * address) {
+    portAddress = address;
+}
+
+uint16_t * getPortAddress(void) {
+    return portAddress;
+}
+
+uint16_t ledToMask(uint8_t led) {
     return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
 };
 
-/* === Public function implementation ========================================================== */
+/* === Public function implementation ==========================================================
+ */
 
 void Leds_init(uint16_t * address) {
-    portAddress = address;
-    *portAddress = ALL_LEDS_OFF;
+    setPortAddress(address);
+    Leds_turnOffAllLeds();
 };
 
 void Leds_turnOnSingle(uint8_t led) {
-    *portAddress |= ledToMask(led);
+    setLedState(led, LED_ON);
 };
 
 void Leds_turnOffSingle(uint8_t led) {
-    *portAddress &= ~ledToMask(led);
+    setLedState(led, LED_OFF);
 };
 
 void Leds_turnOnAllLeds() {
-    *portAddress = ALL_LEDS_ON;
+    updatePortValue(ALL_LEDS_ON);
 };
 
 void Leds_turnOffAllLeds(void) {
-    *portAddress = ALL_LEDS_OFF;
+    updatePortValue(ALL_LEDS_OFF);
 }
 
-/* === End of documentation ==================================================================== */
+bool Leds_isLedTurnedOn(uint8_t led) {
+    uint16_t * port = getPortAddress();
+    return (*port & ledToMask(led));
+};
+
+bool Leds_isLedTurnedOff(uint8_t led) {
+    uint16_t * port = getPortAddress();
+    return !(*port & ledToMask(led));
+}
+/* === End of documentation ====================================================================
+ */
