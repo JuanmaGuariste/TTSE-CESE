@@ -19,31 +19,40 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file main.c
- ** @brief Definición de la función principal del programa
+/** @file test_leds.c
+ ** @brief Unitary tests for leds module.
  **/
 
-/* === Headers files inclusions =============================================================== */
+/* === Headers files inclusions ===============================================================
+ */
+#include "unity.h"
 
-#include "main.h"
+/* === Macros definitions ======================================================================
+ */
 
-/* === Macros definitions ====================================================================== */
+/* === Private data type declarations ==========================================================
+ */
 
-/* === Private data type declarations ========================================================== */
+/* === Private variable declarations ===========================================================
+ */
 
-/* === Private variable declarations =========================================================== */
+/* === Private function declarations ===========================================================
+ */
 
-/* === Private function declarations =========================================================== */
+/* === Public variable definitions =============================================================
+ */
 
-/* === Public variable definitions ============================================================= */
+/* === Private variable definitions ============================================================
+ */
 
-/* === Private variable definitions ============================================================ */
+/* === Private function implementation =========================================================
+ */
 
-/* === Private function implementation ========================================================= */
+/* === Public function implementation ==========================================================
+ */
 
-/* === Public function implementation ========================================================== */
-
-int main(void) {
+void test_inicial(void) {
+    TEST_FAIL_MESSAGE("Configuracion e inicializacion correcta");
 }
 
 /* === End of documentation ==================================================================== */
